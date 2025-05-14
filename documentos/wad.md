@@ -48,6 +48,14 @@ Se sente sobrecarregada com os prazos e precisa de uma ferramenta digital para s
 - **US02**: Como estudante, quero ver uma lista organizada de tarefas para entender minhas obrigações.
 - **US03**: Quero marcar tarefas como concluídas para acompanhar meu progresso.
 
+#### Análise da US01 (INVEST)
+- Independente: A funcionalidade de adicionar tarefas pode ser feita separadamente das outras funcionalidades.
+- Negociável: O formato do cadastro pode ser ajustado conforme o necessário.
+- Valiosa: Ajuda o usuário a organizar suas atividades e cumprir prazos.
+- Estimável: É possível prever o tempo necessário para o desenvolvimento.
+- Pequena: A ação de adicionar uma tarefa é simples e de pequena escala.
+- Testável: Podemos testar criando uma tarefa e verificando se ela aparece corretamente no sistema.
+
 
 
 ---
