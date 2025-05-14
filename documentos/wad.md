@@ -68,7 +68,7 @@ Se sente sobrecarregada com os prazos e precisa de uma ferramenta digital para s
 <div align="center">
 <sub>Figura 2 - Modelo relacional do banco de dados - Projeto individual</sub>
 <img src="../assets/modelo-banco.png.png">
-<sup>Fonte: Aluno Paulo Vitor</sup>
+<sup>Fonte: Aluno Paulo Victor</sup>
 </div>
 
 
