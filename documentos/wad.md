@@ -1,0 +1,231 @@
+# Web Application Document - Projeto Individual - Módulo 2 - Inteli
+
+
+
+
+## Sistema de organização de tarefas.
+
+
+#### Desenvolvedor: Paulo Victor Batista De Souza
+---
+
+
+
+<br>
+
+
+## <a name="c1"></a>1. Introdução (Semana 01)
+
+
+&emsp;Este projeto consiste no desenvolvimento de um sistema web de gerenciamento de tarefas, com foco na simplicidade, usabilidade e eficiência. O objetivo é fornecer uma solução leve para organização de atividades, destinada a usuários que precisam acompanhar prazos, compromissos e fluxos de trabalho — como estudantes, escritores e profissionais autônomos. O sistema permite o cadastro, edição, exclusão e visualização de tarefas, com estrutura otimizada para facilitar o controle individual de atividades diárias. A aplicação prioriza uma interface intuitiva e funcional, garantindo acessibilidade e rapidez nas interações.
+
+
+
+
+---
+
+
+## <a name="c2"></a>2. Visão Geral da Aplicação Web
+
+
+### 2.1. Personas (Semana 01)
+
+
+***Lara Croft**, 22 anos, estudante universitária e escritora iniciante.  
+Se sente sobrecarregada com os prazos e precisa de uma ferramenta digital para se organizar..*
+
+<div align="center">
+<sub>Figura 1 - Persona- Projeto individual </sub>
+<img src="../assets/Lara Persona.png">
+<sup>Fonte: Aluno Paulo Vitor.</sup>
+</div>
+
+
+### 2.2. User Stories (Semana 01)
+
+
+- **US01**: Como escritora, quero adicionar tarefas com prazo para não perder entregas.
+- **US02**: Como estudante, quero ver uma lista organizada de tarefas para entender minhas obrigações.
+- **US03**: Quero marcar tarefas como concluídas para acompanhar meu progresso.
+
+
+
+---
+
+
+## <a name="c3"></a>3. Projeto da Aplicação Web
+
+
+### 3.1. Modelagem do banco de dados  (Semana 3)
+<div align="center">
+<sub>Figura 2 - Modelo relacional do banco de dados - Projeto individual</sub>
+<img src="../assets/modelo-banco.png.png">
+<sup>Fonte: Aluno Paulo Vitor</sup>
+</div>
+
+
+
+
+---
+&emsp; A imagem acima apresenta o diagrama relacional do banco de dados do siatema de organização de tarefas. O modelo é composto por  entidades principais: Usuarios e tarefas.
+
+
+
+---
+
+
+### Modelo físico (arquivo .sql)
+
+
+``` -- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'Users'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `Users`;
+		
+CREATE TABLE `Users` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `Nome` VARCHAR NULL DEFAULT NULL,
+  `Email` VARCHAR NULL DEFAULT NULL,
+  `Senha` VARCHAR NULL DEFAULT NULL,
+  `Criado_em` VARCHAR NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'Tasks'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `Tasks`;
+		
+CREATE TABLE `Tasks` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `Título` VARCHAR NULL DEFAULT NULL,
+  `Descrição` VARCHAR NULL DEFAULT NULL,
+  `Status` VARCHAR NULL DEFAULT NULL,
+  `Prazo` VARCHAR NULL DEFAULT NULL,
+  `User_id` VARCHAR NULL DEFAULT NULL,
+  `Criado_em` VARCHAR NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE `Tasks` ADD FOREIGN KEY (User_id) REFERENCES `Users` (`id`);
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE `Users` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `Tasks` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO `Users` (`id`,`Nome`,`Email`,`Senha`,`Criado_em`) VALUES
+-- ('','','','','');
+-- INSERT INTO `Tasks` (`id`,`Título`,`Descrição`,`Status`,`Prazo`,`User_id`,`Criado_em`) VALUES
+-- ('','','','','','','');
+```
+
+
+---
+
+
+### 3.1.1 BD e Models (Semana 5)
+*Descreva aqui os Models implementados no sistema web*
+
+
+### 3.2. Arquitetura (Semana 5)
+
+
+*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+
+
+**Instruções para criação do diagrama de arquitetura**  
+- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
+- **View**: A camada responsável pela interface de usuário.
+- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
+ 
+*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+
+
+### 3.3. Wireframes (Semana 03)
+
+
+*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+
+
+### 3.4. Guia de estilos (Semana 05)
+
+
+*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+
+
+
+
+### 3.5. Protótipo de alta fidelidade (Semana 05)
+
+
+*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+
+
+### 3.6. WebAPI e endpoints (Semana 05)
+
+
+*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+
+
+### 3.7 Interface e Navegação (Semana 07)
+
+
+*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+
+
+---
+
+
+## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
+
+
+### 4.1 Demonstração do Sistema Web (Semana 8)
+
+
+*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
+*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+
+
+### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
+
+
+*Indique pontos fortes e pontos a melhorar de maneira geral.*
+*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+
+
+
+
+
+
+## <a name="c5"></a>5. Referências
+
+
+_Incluir as principais referências de seu projeto, para que seu parceiro possa consultar caso ele se interessar em aprofundar. Um exemplo de referência de livro e de site:_<br>
+
+
+---
+---
+
+
