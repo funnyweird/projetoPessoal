@@ -17,44 +17,68 @@ Ela precisa de uma ferramenta simples para organizar seus textos e prazos acadê
 - Marcar como concluída
 
 ## Estrutura de Pastas (Padrão MVC)
-meu-projeto/
-├── config/ # Configurações do sistema
-├── controllers/ # Controladores (lógica)
-├── models/ # Modelos de dados
-├── routes/ # Rotas da aplicação
-├── services/ # Serviços auxiliares
-├── assets/ # Arquivos públicos
-├── scripts/ # JavaScript público
-├── styles/ # CSS
-├── tests/ # Testes
-├── .env.example
-├── .gitignore
-├── jest.config.js
-├── modelo-banco.png # Diagrama visual do banco
-├── modelo-banco.sql # Script SQL do banco
-├── package.json
-├── readme.md
-├── server.js
-└── rest.http
+
+**`meu-projeto/`**
+
+**`├── config/ # Configurações do sistema`**
+
+**`├── controllers/ # Controladores (lógica)`**
+
+**`├── models/ # Modelos de dados`**
+
+**`├── routes/ # Rotas da aplicação`**
+
+**`├── services/ # Serviços auxiliares`**
+
+**`├── assets/ # Arquivos públicos`**
+
+**`├── scripts/ # JavaScript público`**
+
+**`├── styles/ # CSS`**
+
+**`├── tests/ # Testes`**
+
+**`├── .env.example`**
+
+**`├── .gitignore`**
+
+**`├── jest.config.js`**
+
+**`├── modelo-banco.png # Diagrama visual do banco`**
+
+**`├── modelo-banco.sql # Script SQL do banco`**
+
+**`├── package.json`**
+
+**`├── readme.md`**
+
+**`├── server.js`**
+
+**`└── rest.http`**
 
 ## Como rodar o projeto localmente
 
-1. Clone o repositório:
+1. **Clone o repositório:**
 
-```git clone https://github.com/seu-usuario/seu-repositorio.git```
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd projetoPessoal
+```
 
-2. Vá para a pasta do projeto:
+2. **Instale as dependências:**
 
-```cd projetoPessoal```
+```bash
+npm install
+```
 
-3. Instale as dependências:
+3. **Rode o servidor:**
 
-```npm install```
+```bash
+node server.js
+```
+4. **Acesse no navegador:**
 
-4. Rode o servidor:
-
-```node server.js```
-5. Acesse no navegador:
-
-```http://localhost:3000```
+```bash
+http://localhost:3000
+```
 
