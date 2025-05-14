@@ -174,9 +174,16 @@ ALTER TABLE `Tasks` ADD FOREIGN KEY (User_id) REFERENCES `Users` (`id`);
 ### 3.3. Wireframes (Semana 03)
 
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+<div align="center">
+<sub>Figura 3 - Wireframe- Projeto individual</sub>
+<img src="../assets/wireframe.png">
+<sup>Fonte: Aluno Paulo Victor</sup>
+</div>
+
+---
 
 
+---
 ### 3.4. Guia de estilos (Semana 05)
 
 
