@@ -181,7 +181,22 @@ ALTER TABLE `Tasks` ADD FOREIGN KEY (User_id) REFERENCES `Users` (`id`);
 </div>
 
 ---
+### Relação entre Wireframes e User Stories
+Os wireframes apresentados foram projetados para atender diretamente às User Stories definidas na Semana 01, levando em consideração as dores e necessidades da persona Lara Croft, uma estudante universitária e escritora iniciante.
 
+- **US01:** Como escritora, quero adicionar tarefas com prazo para não perder entregas.
+
+Representada pela tela de detalhamento da tarefa, que possui campos para adicionar título, tags, nível de importância e uma descrição detalhada. Isso permite que o usuário registre tarefas com todas as informações relevantes para gerenciar seus prazos.
+
+- **US02:** Como estudante, quero ver uma lista organizada de tarefas para entender minhas obrigações.
+
+Atendida pela tela principal (dashboard), onde as tarefas estão divididas em colunas (Pendentes, Concluídas) e organizadas por área (como “Faculdade”, “Casa”). O menu lateral também permite filtrar tarefas por categoria.
+
+- **US03:** Quero marcar tarefas como concluídas para acompanhar meu progresso.
+
+A interface da tela inicial possui uma coluna exclusiva para tarefas concluídas, o que permite ao usuário visualizar facilmente o que já foi feito. Isso favorece o acompanhamento do progresso de forma clara e direta.
+
+Essas telas foram desenhadas com base nas prioridades da persona, como praticidade, clareza e foco em organização pessoal.
 
 ---
 ### 3.4. Guia de estilos (Semana 05)
