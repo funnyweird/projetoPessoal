@@ -9,13 +9,7 @@
 #### Desenvolvedor: Paulo Victor Batista De Souza
 ---
 
-
-
-<br>
-
-
 ## <a name="c1"></a>1. Introdução (Semana 01)
-
 
 &emsp;Este projeto consiste no desenvolvimento de um sistema web de gerenciamento de tarefas, com foco na simplicidade, usabilidade e eficiência. O objetivo é fornecer uma solução leve para organização de atividades, destinada a usuários que precisam acompanhar prazos, compromissos e fluxos de trabalho — como estudantes, escritores e profissionais autônomos. O sistema permite o cadastro, edição, exclusão e visualização de tarefas, com estrutura otimizada para facilitar o controle individual de atividades diárias. A aplicação prioriza uma interface intuitiva e funcional, garantindo acessibilidade e rapidez nas interações.
 
@@ -37,7 +31,7 @@ Se sente sobrecarregada com os prazos e precisa de uma ferramenta digital para s
 <div align="center">
 <sub>Figura 1 - Persona- Projeto individual </sub>
 <img src="../assets/Lara Persona.png">
-<sup>Fonte: Aluno Paulo Vitor.</sup>
+<sup>Fonte: Aluno Paulo Victor.</sup>
 </div>
 
 
@@ -201,16 +195,105 @@ Essas telas foram desenhadas com base nas prioridades da persona, como praticida
 ---
 ### 3.4. Guia de estilos (Semana 05)
 
+Este mini guia de estilos apresenta os principais padrões visuais utilizados na construção do sistema. O objetivo foi criar uma experiência simples, prática e coerente com as necessidades da persona Lara Croft, com foco em clareza, contraste e organização de tarefas.
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+---
+
+#### **Layout Geral**
+- Estrutura em colunas (painel lateral + dashboard de tarefas)
+- Cards com cantos levemente arredondados (`border-radius: 10px`)
+- Espaçamento entre elementos: 12px a 24px
+- Linhas divisórias sutis em cinza escuro (`#3A3A3A`)
+
+---
+
+#### **Tipografia**
+- **Fonte:** Inter (Google Fonts)
+- **Cores utilizadas:**
+  - Texto principal: branco `#FFFFFF`
+  - Texto secundário: `#CFCFCF`
+- **Tamanhos principais:**
+  - Títulos (ex: “Cadastro”, “Login”): `32px`, negrito
+  - Textos em campos e cards: `16px`
+  - Descrições e detalhes: `14px`
+
+---
+
+#### **Paleta de Cores**
+| Elemento                          | Cor        | Hex      |
+|----------------------------------|------------|----------|
+| Fundo principal                  | Cinza escuro | `#1E1E1E` |
+| Fundo de cards                   | Cinza médio escuro | `#3A3A3A` |
+| Inputs (caixas de texto)         | Cinza carvão | `#2E2E2E` |
+| Texto secundário                 | Cinza claro | `#CFCFCF` |
+| Texto principal                  | Branco       | `#FFFFFF` |
+| Botões (fundo)                   | Roxo vibrante | `#7E55FF` |
+| Tags e elementos de destaque     | Roxo claro | `#A285FC` |
+| Coluna ativa                     | Cinza mais claro | `#1E8E8E8` |
+| Bordas e linhas divisórias       | Cinza escuro | `#3A3A3A` |
+
+---
+
+#### **Botões**
+- Cor de fundo: `#7E55FF`
+- Texto: branco (`#FFFFFF`)
+- Tamanho padrão: altura `40px`
+- Formato: cantos arredondados (6px)
+- Estilo: preenchido, sem borda
+- Estados alternativos (hover/focus): não implementados nesta fase
+
+---
+
+#### **Assets**
+- Ícone de perfil utilizado em telas de login e dashboard:
+
+<div align="center">
+<img src="../assets/icone-login.png" width="100px" alt="Ícone de perfil"/>
+</div>
+
+- Estilo do ícone:  
+  - Círculo roxo claro (`#A285FC`) com gradiente sutil  
+  - Silhueta centralizada em tom mais claro para garantir contraste
+
+---
+
+As cores, espaçamentos e tipografia foram pensados para maximizar contraste e legibilidade, respeitando uma paleta escura moderna e confortável para longos períodos de uso.
 
 
+### 3.5. Protótipo de Alta Fidelidade (Semana 05)
 
+A seguir estão as principais telas do protótipo de alta fidelidade desenvolvido com base nas user stories de Lara Croft, estudante universitária e escritora iniciante. O sistema é um gerenciador de tarefas com foco em praticidade e clareza para a organização de prazos e ideias.
 
-### 3.5. Protótipo de alta fidelidade (Semana 05)
+Você pode acessar o protótipo completo clicando [neste link para o Figma](https://www.figma.com/design/J9XW0bJF5q8hgsPazID2Al/Sem-t%C3%ADtulo?node-id=0-1&t=3QYMSxzdeiKhNLMc-1).
 
+---
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+#### Figura 1 – Tela de Cadastro
+Tela destinada à criação de nova conta, contendo campos de nome e senha com estilo visual padronizado.
+
+![Tela de Cadastro](../assets/cadastro.png)
+
+---
+
+#### Figura 2 – Tela de Login
+Interface de entrada para usuários recorrentes, com acesso ao sistema e link para recuperação de senha.
+
+![Tela de Login](../assets/login.png)
+
+---
+
+#### Figura 3 – Tela de Redefinição de Senha
+Permite ao usuário redefinir a senha ao digitar e confirmar um novo código de acesso.
+
+![Tela de Nova Senha](../assets/nova-senha.png)
+
+---
+
+#### Figura 4 – Dashboard Kanban
+Tela principal do sistema, composta por um painel de áreas personalizáveis (como "Faculdade" ou "Casa") e colunas do tipo Kanban (Pendentes e Concluídas). Cada tarefa pode conter tags, prazo, prioridade e uma breve descrição.
+
+![Dashboard Kanban](../assets/kanban-dashboard.png)
+
 
 
 ### 3.6. WebAPI e endpoints (Semana 05)

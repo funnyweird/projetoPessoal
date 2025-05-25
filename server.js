@@ -13,6 +13,9 @@ db.connect()
 
     app.use(express.json());
 
+    const tarefaRoutes = require('./routes/tarefaRoutes');
+    app.use('/api', tarefaRoutes);
+
     const userRoutes = require('./routes/userRoutes');
     app.use('/users', userRoutes);
 

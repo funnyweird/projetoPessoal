@@ -33,3 +33,13 @@ VALUES
   ('Rose Thompson', 'rose.thompson@example.com'),
   ('Samuel Perez', 'samuel.perez@example.com'),
   ('Tara Scott', 'tara.scott@example.com');
+  
+-- Criar tabela de tarefas
+CREATE TABLE IF NOT EXISTS tarefas (
+  id SERIAL PRIMARY KEY,
+  nome TEXT NOT NULL,
+  descricao TEXT,
+  status TEXT DEFAULT 'pendente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
