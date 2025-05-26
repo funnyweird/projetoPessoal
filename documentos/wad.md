@@ -148,21 +148,77 @@ ALTER TABLE `Tasks` ADD FOREIGN KEY (User_id) REFERENCES `Users` (`id`);
 
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+### 3.1.1 BD e Models (Semana 5)
+
+A estrutura do banco de dados foi definida manualmente utilizando SQL, sem o uso de ORMs, respeitando a arquitetura MVC. Os Models foram implementados na camada de serviços e são responsáveis por realizar operações de leitura e escrita no banco de dados PostgreSQL.
+
+#### Estrutura do Banco de Dados
+
+O sistema possui duas entidades principais: `users` e `tasks`. Abaixo está a descrição de cada uma:
+
+**Tabela `users`**
+- `id` (PK): Identificador único do usuário.
+- `nome`: Nome do usuário.
+- `email`: Email de login.
+- `senha`: Senha criptografada do usuário.
+- `criado_em`: Data de criação do usuário.
+
+**Tabela `tasks`**
+- `id` (PK): Identificador único da tarefa.
+- `titulo`: Título da tarefa.
+- `descricao`: Descrição da tarefa.
+- `status`: Estado da tarefa (ex: pendente, concluída).
+- `prazo`: Data limite para conclusão.
+- `user_id` (FK): Relacionamento com a tabela `users`.
+- `criado_em`: Data de criação da tarefa.
+
+O relacionamento entre as tabelas é de **1 para N**, onde um usuário pode possuir várias tarefas.
+
+#### Implementação dos Models
+
+Os Models estão localizados na pasta `/models` e encapsulam as funções de acesso ao banco de dados via comandos SQL, utilizando o módulo `pg`.
+
+**`userModel.js`**
+- `getAll()`: Retorna todos os usuários.
+- `getById(id)`: Retorna um usuário pelo ID.
+- `create(data)`: Cria um novo usuário com os campos `nome`, `email` e `senha`.
+- `update(id, data)`: Atualiza nome, email e senha de um usuário existente.
+- `delete(id)`: Remove um usuário da base de dados.
+
+**`taskModel.js`**
+- `getAll()`: Retorna todas as tarefas.
+- `getById(id)`: Retorna uma tarefa específica.
+- `create(data)`: Cria uma nova tarefa com título, descrição, status, prazo e user_id.
+- `update(id, data)`: Atualiza os dados de uma tarefa existente.
+- `delete(id)`: Remove uma tarefa da base de dados.
+
+Essa abordagem direta ao banco permite maior controle das queries, além de facilitar a manutenção em ambientes acadêmicos ou de prototipagem.
+
+> A modelagem relacional utilizada está disponível no item **3.5.1 Modelo Relacional**.
+
 
 
 ### 3.2. Arquitetura (Semana 5)
 
+A arquitetura da aplicação foi construída com base no padrão **MVC (Model-View-Controller)**, que garante uma melhor separação de responsabilidades e facilita a manutenção e escalabilidade do sistema.
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+O modelo **MVC** divide a aplicação em três camadas principais:
 
+- **Model:** Responsável por lidar com os dados e com o banco de dados. Nesta aplicação, os models estão definidos na pasta `models/`, onde temos os arquivos `userModel.js` e `taskModel.js`. Eles realizam as operações de leitura, inserção, atualização e exclusão no banco de dados PostgreSQL.
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
- 
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+- **View:** A camada de visualização pode ser tanto um cliente externo (como um navegador consumindo a API via REST) quanto páginas renderizadas no backend. Neste projeto, a comunicação se dá majoritariamente por meio da Web API que retorna dados em JSON para um possível frontend.
+
+- **Controller:** Responsável pela lógica da aplicação. Recebe as requisições HTTP, processa os dados com o auxílio dos models e retorna a resposta adequada. Os controllers estão localizados na pasta `controllers/`, com `userController.js` e `taskController.js` definindo as regras para suas respectivas rotas.
+
+As rotas estão organizadas em arquivos separados dentro da pasta `routes/`, com `userRoutes.js` e `taskRoutes.js` responsáveis por expor os endpoints da API para usuários e tarefas, respectivamente.
+
+Abaixo, segue o diagrama ilustrando essa arquitetura:
+
+<div align="center">
+  <img src="../assets/diagrama-arquitetura-mvc.png" alt="Diagrama da Arquitetura MVC" width="700"/>
+</div>
+
+> Figura 1 - Diagrama da Arquitetura MVC da aplicação. Fonte: Aluno Paulo Victor.
 
 
 ### 3.3. Wireframes (Semana 03)
@@ -296,10 +352,64 @@ Tela principal do sistema, composta por um painel de áreas personalizáveis (co
 
 
 
-### 3.6. WebAPI e endpoints (Semana 05)
+### 3.6. WebAPI e Endpoints (Semana 05)
+
+A Web API do projeto foi estruturada para seguir o padrão REST, com endpoints dedicados à criação, leitura, atualização e exclusão de dados. Abaixo estão descritos os principais endpoints da aplicação, divididos por responsabilidade, com base nas rotas definidas nos arquivos `userRoutes.js` e `taskRoutes.js`.
+
+---
+
+#### Tipos de Solicitação
+
+| Método  | Ação                                     |
+|---------|------------------------------------------|
+| **GET**    | Buscar informações (listar ou exibir dados) |
+| **POST**   | Criar um novo recurso (registro)         |
+| **PUT**    | Atualizar um recurso existente           |
+| **DELETE** | Remover um recurso                       |
+
+---
+
+#### Gerenciamento de Usuários
+
+| Método | Rota         | Finalidade                                 |
+|--------|--------------|---------------------------------------------|
+| GET    | `/users`     | Retorna todos os usuários cadastrados       |
+| GET    | `/users/:id` | Retorna os dados de um usuário específico   |
+| POST   | `/users`     | Cria um novo usuário                        |
+| PUT    | `/users/:id` | Atualiza os dados de um usuário             |
+| DELETE | `/users/:id` | Remove um usuário do sistema                |
+
+---
+
+#### Gerenciamento de Tarefas
+
+| Método | Rota         | Finalidade                                         |
+|--------|--------------|-----------------------------------------------------|
+| GET    | `/tasks`     | Retorna todas as tarefas registradas               |
+| GET    | `/tasks/:id` | Retorna os dados de uma tarefa específica          |
+| POST   | `/tasks`     | Cria uma nova tarefa (com prazo, descrição, etc.)  |
+| PUT    | `/tasks/:id` | Atualiza uma tarefa existente                      |
+| DELETE | `/tasks/:id` | Remove uma tarefa do sistema                       |
+
+---
+
+#### Correspondência com as User Stories
+
+| User Story | Finalidade                                                        | Endpoint relacionado     |
+|------------|-------------------------------------------------------------------|---------------------------|
+| **US01**   | Adicionar tarefas com prazo para não perder entregas              | `POST /tasks`             |
+| **US02**   | Ver uma lista organizada de tarefas para entender obrigações      | `GET /tasks`              |
+| **US03**   | Marcar tarefas como concluídas para acompanhar o progresso        | `PUT /tasks/:id`          |
+
+---
+
+#### Observações
+
+- Todos os endpoints foram desenvolvidos utilizando **Express.js**.
+- A estrutura segue o padrão **MVC** e os controllers fazem a ponte entre os endpoints e os dados armazenados no banco **PostgreSQL**.
+- As respostas da API são retornadas em formato **JSON**, facilitando a integração com um frontend ou cliente REST como Postman.
 
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
 
 
 ### 3.7 Interface e Navegação (Semana 07)
