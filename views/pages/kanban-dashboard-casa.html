@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Quadro de Tarefas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0f0f0f;
+      font-family: Arial, sans-serif;
+      color: white;
+      height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-right: 2px solid #333;
+    }
+
+    .sidebar .avatar {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #8f5eff, #5a2bd4);
+      border-radius: 50%;
+      margin: 0 auto 30px;
+    }
+
+    .area {
+      margin-bottom: 15px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #ccc;
+      transition: background 0.2s;
+    }
+
+    .area:hover {
+      background-color: #333;
+    }
+
+    .area.active {
+      background-color: #a259ff;
+      color: white;
+      font-weight: bold;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-header {
+      padding: 20px;
+      border-bottom: 2px solid #333;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    .kanban {
+      display: flex;
+      flex: 1;
+    }
+
+    .column {
+      flex: 1;
+      padding: 20px;
+      border-right: 2px solid #333;
+      min-height: 400px;
+    }
+
+    .column:last-child {
+      border-right: none;
+    }
+
+    .column h3 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #1f1f1f;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      margin-bottom: 10px;
+      cursor: grab;
+    }
+
+    .card.dragging {
+      opacity: 0.5;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: #a259ff;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="avatar"></div>
+    <h2>Áreas</h2>
+
+    <div class="area" onclick="location.href='kanban-dashboard-faculdade.html'">Faculdade</div>
+    <div class="area" onclick="location.href='kanban-dashboard-escrita.html'">Escrita</div>
+    <div class="area" onclick="location.href='kanban-dashboard-linguas.html'">Língua Estrangeira</div>
+    <div class="area active" onclick="location.href='kanban-dashboard-casa.html'">Casa</div>
+    <div class="area">...</div>
+  </div>
+
+  <div class="main">
+    <div class="main-header">Casa</div>
+    <div class="kanban">
+      <div class="column" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <h3>Pendentes</h3>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card1">
+          <h4>Limpar o banheiro</h4>
+          <p><strong>Tempo:</strong> curto</p>
+          <p><strong>Tag:</strong> <span class="tag">Urgente</span></p>
+          <p><strong>Descrição:</strong><br>Usar desinfetante e escova nos azulejos.</p>
+        </div>
+      </div>
+      <div class="column" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <h3>Concluídas</h3>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let dragged;
+
+    function drag(event) {
+      dragged = event.target;
+      event.target.classList.add("dragging");
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const column = event.target.closest(".column");
+      if (column) column.appendChild(dragged);
+      dragged.classList.remove("dragging");
+    }
+  </script>
+  <!-- Botão flutuante para adicionar -->
+<button onclick="abrirFormulario()" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #a259ff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1000;
+">+ Novo Card</button>
+
+<!-- Formulário flutuante -->
+<div id="formulario" style="
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: #1f1f1f;
+  border: 1px solid #444;
+  padding: 20px;
+  border-radius: 12px;
+  width: 260px;
+  z-index: 1000;
+">
+  <input id="titulo" type="text" placeholder="Título" style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 6px; border: none; background: #2b2b2b; color: white;">
+  <input id="tempo" type="text" placeholder="Tempo (curto/médio...)" style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 6px; border: none; background: #2b2b2b; color: white;">
+  <input id="tag" type="text" placeholder="Tag (Importante...)" style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 6px; border: none; background: #2b2b2b; color: white;">
+  <textarea id="descricao" placeholder="Descrição" rows="3" style="width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 6px; border: none; background: #2b2b2b; color: white;"></textarea>
+  <button onclick="criarCard()" style="width: 100%; padding: 10px; background-color: #a259ff; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Adicionar</button>
+</div>
+
+<script>
+  function abrirFormulario() {
+    const form = document.getElementById('formulario');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function criarCard() {
+    const titulo = document.getElementById('titulo').value;
+    const tempo = document.getElementById('tempo').value;
+    const tag = document.getElementById('tag').value;
+    const descricao = document.getElementById('descricao').value;
+
+    if (!titulo || !descricao) {
+      alert("Preencha título e descrição!");
+      return;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('draggable', 'true');
+    card.setAttribute('ondragstart', 'drag(event)');
+    card.innerHTML = `
+      <h4>${titulo}</h4>
+      <p><strong>Tempo:</strong> ${tempo}</p>
+      <p><strong>Tag:</strong> <span class="tag">${tag}</span></p>
+      <p><strong>Descrição:</strong><br>${descricao}</p>
+    `;
+
+    const colunaPendentes = document.querySelector('.column');
+    colunaPendentes.appendChild(card);
+
+    // limpar formulário
+    document.getElementById('titulo').value = '';
+    document.getElementById('tempo').value = '';
+    document.getElementById('tag').value = '';
+    document.getElementById('descricao').value = '';
+    document.getElementById('formulario').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
