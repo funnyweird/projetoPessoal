@@ -1,23 +1,25 @@
-DROP TABLE IF EXISTS "Users";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "Users" (
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  "Nome" VARCHAR,
-  "Email" VARCHAR,
-  "Senha" VARCHAR,
-  "Criado_em" VARCHAR
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  senha VARCHAR(100) NOT NULL,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS "Tasks";
-
-CREATE TABLE "Tasks" (
+CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
-  "Título" VARCHAR,
-  "Descrição" VARCHAR,
-  "Status" VARCHAR,
-  "Prazo" VARCHAR,
-  "User_id" INTEGER,
-  "Criado_em" VARCHAR
+  titulo VARCHAR(100) NOT NULL,
+  descricao TEXT,
+  status VARCHAR(50) NOT NULL,
+  tempo VARCHAR(20),
+  tag VARCHAR(50),
+  categoria VARCHAR(50),
+  prazo TIMESTAMP,
+  user_id INTEGER REFERENCES users(id),
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-ALTER TABLE "Tasks" ADD FOREIGN KEY ("User_id") REFERENCES "Users"(id);

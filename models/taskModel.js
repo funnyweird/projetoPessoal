@@ -13,10 +13,10 @@ class Task {
 
   static async create(data) {
     const result = await db.query(
-      `INSERT INTO tasks (titulo, descricao, status, prazo, user_id, criado_em)
-       VALUES ($1, $2, $3, $4, $5, CURRENT_DATE)
+      `INSERT INTO tasks (titulo, descricao, status, tempo, tag, categoria, prazo, user_id, criado_em)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_DATE)
        RETURNING *`,
-      [data.titulo, data.descricao, data.status, data.prazo, data.user_id]
+      [data.titulo, data.descricao, data.status, data.tempo, data.tag, data.categoria, data.prazo, data.user_id]
     );
     return result.rows[0];
   }
@@ -24,10 +24,10 @@ class Task {
   static async update(id, data) {
     const result = await db.query(
       `UPDATE tasks
-       SET titulo = $1, descricao = $2, status = $3, prazo = $4
-       WHERE id = $5
+       SET titulo = $1, descricao = $2, status = $3, tempo = $4, tag = $5, categoria = $6, prazo = $7
+       WHERE id = $8
        RETURNING *`,
-      [data.titulo, data.descricao, data.status, data.prazo, id]
+      [data.titulo, data.descricao, data.status, data.tempo, data.tag, data.categoria, data.prazo, id]
     );
     return result.rows[0];
   }

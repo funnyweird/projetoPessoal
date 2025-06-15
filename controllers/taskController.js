@@ -2,10 +2,18 @@ const taskModel = require('../models/taskModel');
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await taskModel.getAllTasks();
-    res.status(200).json(tasks);
+    const tasks = await taskModel.getAll();
+    // Se for uma requisição API, retorna JSON
+    if (req.xhr || req.headers.accept.includes('application/json')) {
+      return res.status(200).json(tasks);
+    }
+    // Se for uma requisição normal, retorna os dados para a view
+    return tasks;
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (req.xhr || req.headers.accept.includes('application/json')) {
+      return res.status(500).json({ error: error.message });
+    }
+    throw error;
   }
 };
 
@@ -23,9 +31,12 @@ const getTaskById = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
+  const { titulo, descricao, status, prazo, user_id } = req.body;
+  if (!titulo || !descricao || !user_id) {
+    return res.status(400).json({ error: 'Título, descrição e user_id são obrigatórios.' });
+  }
   try {
-    const { titulo, descricao, status, prazo, user_id } = req.body;
-    const newTask = await taskModel.createTask({ titulo, descricao, status, prazo, user_id });
+    const newTask = await taskModel.create({ titulo, descricao, status, prazo, user_id });
     res.status(201).json(newTask);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -33,9 +44,12 @@ const createTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+  const { titulo, descricao, status, prazo } = req.body;
+  if (!titulo || !descricao) {
+    return res.status(400).json({ error: 'Título e descrição são obrigatórios.' });
+  }
   try {
-    const { titulo, descricao, status, prazo } = req.body;
-    const updatedTask = await taskModel.updateTask(req.params.id, { titulo, descricao, status, prazo });
+    const updatedTask = await taskModel.update(req.params.id, { titulo, descricao, status, prazo });
     if (updatedTask) {
       res.status(200).json(updatedTask);
     } else {

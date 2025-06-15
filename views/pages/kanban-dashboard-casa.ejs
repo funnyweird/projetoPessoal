@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Casa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <%- include('../partials/sidebar', { tipo: 'casa' }) %>
+        
+        <main class="main-content">
+            <div class="kanban-board">
+                <!-- Coluna A Fazer -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>A Fazer</h3>
+                    </div>
+                    <div class="task-list" id="todo-list">
+                        <% tasks.filter(task => task.status === 'todo').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>">
+                                <h4><%= task.titulo %></h4>
+                                <p><%= task.descricao %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('todo')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+
+                <!-- Coluna Em Progresso -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>Em Progresso</h3>
+                    </div>
+                    <div class="task-list" id="in-progress-list">
+                        <% tasks.filter(task => task.status === 'in-progress').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>">
+                                <h4><%= task.titulo %></h4>
+                                <p><%= task.descricao %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('in-progress')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+
+                <!-- Coluna Concluído -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>Concluído</h3>
+                    </div>
+                    <div class="task-list" id="done-list">
+                        <% tasks.filter(task => task.status === 'done').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>">
+                                <h4><%= task.titulo %></h4>
+                                <p><%= task.descricao %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('done')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Função para adicionar nova tarefa
+        function addTask(status) {
+            const titulo = prompt('Digite o título da tarefa:');
+            if (!titulo) return;
+
+            const descricao = prompt('Digite a descrição da tarefa:');
+            
+            fetch('/api/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    titulo,
+                    descricao,
+                    status,
+                    categoria: 'casa'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Erro ao adicionar tarefa');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao adicionar tarefa');
+            });
+        }
+
+        // Drag and Drop functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskCards = document.querySelectorAll('.task-card');
+            const dropZones = document.querySelectorAll('.task-list');
+
+            taskCards.forEach(card => {
+                card.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', card.dataset.taskId);
+                    card.classList.add('dragging');
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    
+                    const taskId = e.dataTransfer.getData('text/plain');
+                    const newStatus = zone.id.split('-')[0]; // 'todo', 'in-progress', or 'done'
+
+                    fetch(`/api/tasks/${taskId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erro ao mover tarefa');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao mover tarefa');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

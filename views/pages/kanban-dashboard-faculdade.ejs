@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Faculdade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <%- include('../partials/sidebar', { tipo: 'faculdade' }) %>
+        
+        <main class="main-content">
+            <div class="kanban-board">
+                <!-- Coluna A Fazer -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>A Fazer</h3>
+                    </div>
+                    <div class="task-list" id="todo-list">
+                        <% tasks.filter(task => task.status === 'todo').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>" onclick="openTaskModal(decodeURIComponent('<%= encodeURIComponent(JSON.stringify(task)) %>'))">
+                                <div class="card-title"><%= task.titulo %></div>
+                                <% if (task.tempo) { %>
+                                    <div class="card-meta">Tempo: <%= task.tempo %></div>
+                                <% } %>
+                                <% if (task.tag) { %>
+                                    <% let tags = task.tag.split(',').map(t => t.trim()); %>
+                                    <% if (tags[0]) { %><span class="card-tag card-tag-importancia <%= tags[0] %>"><%= tags[0] %></span><% } %>
+                                    <% if (tags[1]) { %><span class="card-tag card-tag-peso <%= tags[1] %>"><%= tags[1] %></span><% } %>
+                                <% } %>
+                                <% if (task.descricao) { %>
+                                    <div class="card-meta">Descrição:</div>
+                                    <div class="card-desc"><%= task.descricao %></div>
+                                <% } %>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('todo')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+
+                <!-- Coluna Em Progresso -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>Em Progresso</h3>
+                    </div>
+                    <div class="task-list" id="in-progress-list">
+                        <% tasks.filter(task => task.status === 'in-progress').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>" onclick="openTaskModal(decodeURIComponent('<%= encodeURIComponent(JSON.stringify(task)) %>'))">
+                                <div class="card-title"><%= task.titulo %></div>
+                                <% if (task.tempo) { %>
+                                    <div class="card-meta">Tempo: <%= task.tempo %></div>
+                                <% } %>
+                                <% if (task.tag) { %>
+                                    <% let tags = task.tag.split(',').map(t => t.trim()); %>
+                                    <% if (tags[0]) { %><span class="card-tag card-tag-importancia <%= tags[0] %>"><%= tags[0] %></span><% } %>
+                                    <% if (tags[1]) { %><span class="card-tag card-tag-peso <%= tags[1] %>"><%= tags[1] %></span><% } %>
+                                <% } %>
+                                <% if (task.descricao) { %>
+                                    <div class="card-meta">Descrição:</div>
+                                    <div class="card-desc"><%= task.descricao %></div>
+                                <% } %>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('in-progress')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+
+                <!-- Coluna Concluído -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <h3>Concluído</h3>
+                    </div>
+                    <div class="task-list" id="done-list">
+                        <% tasks.filter(task => task.status === 'done').forEach(task => { %>
+                            <div class="task-card" draggable="true" data-task-id="<%= task.id %>" onclick="openTaskModal(decodeURIComponent('<%= encodeURIComponent(JSON.stringify(task)) %>'))">
+                                <div class="card-title"><%= task.titulo %></div>
+                                <% if (task.tempo) { %>
+                                    <div class="card-meta">Tempo: <%= task.tempo %></div>
+                                <% } %>
+                                <% if (task.tag) { %>
+                                    <% let tags = task.tag.split(',').map(t => t.trim()); %>
+                                    <% if (tags[0]) { %><span class="card-tag card-tag-importancia <%= tags[0] %>"><%= tags[0] %></span><% } %>
+                                    <% if (tags[1]) { %><span class="card-tag card-tag-peso <%= tags[1] %>"><%= tags[1] %></span><% } %>
+                                <% } %>
+                                <% if (task.descricao) { %>
+                                    <div class="card-meta">Descrição:</div>
+                                    <div class="card-desc"><%= task.descricao %></div>
+                                <% } %>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <button class="add-task-btn" onclick="addTask('done')">
+                        <i class="fas fa-plus"></i> Adicionar Tarefa
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Criação/Edição de Tarefa -->
+    <div id="modal-overlay" class="modal-overlay" style="display:none;">
+        <form class="modal-card" id="task-modal-form" onsubmit="return submitTaskModal(event)">
+            <h2 id="modal-title">Nova Tarefa</h2>
+            <input type="hidden" id="modal-task-id">
+            <label for="modal-titulo">Título*</label>
+            <input id="modal-titulo" name="titulo" required maxlength="60">
+            <label for="modal-tempo">Tempo</label>
+            <select id="modal-tempo" name="tempo">
+                <option value="">Selecione</option>
+                <option value="curto">Curto</option>
+                <option value="médio">Médio</option>
+                <option value="longo">Longo</option>
+            </select>
+            <label>Importância</label>
+            <select id="modal-tag-importancia">
+                <option value="">Selecione</option>
+                <option value="urgente">Urgente</option>
+                <option value="importante">Importante</option>
+                <option value="opcional">Opcional</option>
+            </select>
+            <label>Peso mental</label>
+            <select id="modal-tag-peso">
+                <option value="">Selecione</option>
+                <option value="pesado">Pesado</option>
+                <option value="mediano">Mediano</option>
+                <option value="leve">Leve</option>
+            </select>
+            <label for="modal-descricao">Descrição</label>
+            <textarea id="modal-descricao" name="descricao" rows="3" maxlength="200"></textarea>
+            <div class="modal-actions">
+                <button type="button" class="btn-modal cancel" onclick="closeTaskModal()">Cancelar</button>
+                <button type="submit" class="btn-modal">Salvar</button>
+                <button type="button" class="btn-modal delete" id="delete-task-btn" style="display:none;" onclick="deleteTaskModal()">Excluir</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Substituir addTask para abrir modal vazio
+        function addTask(status) {
+            openTaskModal({ status: status, categoria: 'faculdade' });
+        }
+
+        // Abrir modal para criar/editar tarefa
+        function openTaskModal(task) {
+            if (typeof task === 'string') task = JSON.parse(task);
+            document.getElementById('modal-overlay').style.display = 'flex';
+            document.getElementById('modal-title').textContent = task.id ? 'Editar Tarefa' : 'Nova Tarefa';
+            document.getElementById('modal-task-id').value = task.id || '';
+            document.getElementById('modal-titulo').value = task.titulo || '';
+            document.getElementById('modal-tempo').value = task.tempo || '';
+            // tags
+            let importancia = '', peso = '';
+            if (task.tag) {
+                const tags = task.tag.split(',').map(t => t.trim());
+                importancia = tags[0] || '';
+                peso = tags[1] || '';
+            }
+            document.getElementById('modal-tag-importancia').value = importancia;
+            document.getElementById('modal-tag-peso').value = peso;
+            document.getElementById('modal-descricao').value = task.descricao || '';
+            document.getElementById('delete-task-btn').style.display = task.id ? 'inline-block' : 'none';
+            document.getElementById('task-modal-form').dataset.status = task.status || 'todo';
+            document.getElementById('task-modal-form').dataset.categoria = task.categoria || 'faculdade';
+        }
+
+        // Fechar modal
+        function closeTaskModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+
+        // Salvar/criar tarefa
+        function submitTaskModal(e) {
+            e.preventDefault();
+            const id = document.getElementById('modal-task-id').value;
+            const titulo = document.getElementById('modal-titulo').value;
+            const tempo = document.getElementById('modal-tempo').value;
+            const importancia = document.getElementById('modal-tag-importancia').value;
+            const peso = document.getElementById('modal-tag-peso').value;
+            const tag = [importancia, peso].filter(Boolean).join(', ');
+            const descricao = document.getElementById('modal-descricao').value;
+            const status = document.getElementById('task-modal-form').dataset.status;
+            const categoria = document.getElementById('task-modal-form').dataset.categoria;
+            const body = { titulo, tempo, tag, descricao, status, categoria };
+            if (!titulo) return false;
+            if (id) {
+                fetch(`/api/tasks/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                }).then(r => r.json()).then(data => { if(data.success) location.reload(); });
+            } else {
+                fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                }).then(r => r.json()).then(data => { if(data.success) location.reload(); });
+            }
+            return false;
+        }
+        // Excluir tarefa
+        function deleteTaskModal() {
+            const id = document.getElementById('modal-task-id').value;
+            if (id && confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                fetch(`/api/tasks/${id}`, { method: 'DELETE' })
+                    .then(r => r.json())
+                    .then(data => { if(data.success) location.reload(); });
+            }
+        }
+        // Fechar modal ao clicar fora
+        window.onclick = function(e) {
+            const modal = document.getElementById('modal-overlay');
+            if (e.target === modal) closeTaskModal();
+        }
+
+        // Drag and Drop functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskCards = document.querySelectorAll('.task-card');
+            const dropZones = document.querySelectorAll('.task-list');
+
+            taskCards.forEach(card => {
+                card.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', card.dataset.taskId);
+                    card.classList.add('dragging');
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    
+                    const taskId = e.dataTransfer.getData('text/plain');
+                    const newStatus = zone.id.split('-')[0]; // 'todo', 'in-progress', or 'done'
+
+                    fetch(`/api/tasks/${taskId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erro ao mover tarefa');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao mover tarefa');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -174,6 +174,16 @@ O sistema possui duas entidades principais: `users` e `tasks`. Abaixo está a de
 
 O relacionamento entre as tabelas é de **1 para N**, onde um usuário pode possuir várias tarefas.
 
+#### Explicação das Entidades e Cardinalidades
+
+- **Entidades:**
+  - **User (Usuário):** representa um usuário do sistema, com campos id, nome, email, senha, etc.
+  - **Task (Tarefa):** representa uma tarefa, com campos id, título, descrição, status, prazo, user_id, etc.
+
+- **Cardinalidade:**
+  - **User 1:N Task:** Um usuário pode ter várias tarefas, mas cada tarefa pertence a um único usuário.
+  - **Implementação:** O campo `user_id` em `tasks` referencia o `id` de `users`.
+
 #### Implementação dos Models
 
 Os Models estão localizados na pasta `/models` e encapsulam as funções de acesso ao banco de dados via comandos SQL, utilizando o módulo `pg`.
@@ -240,7 +250,7 @@ Representada pela tela de detalhamento da tarefa, que possui campos para adicion
 
 - **US02:** Como estudante, quero ver uma lista organizada de tarefas para entender minhas obrigações.
 
-Atendida pela tela principal (dashboard), onde as tarefas estão divididas em colunas (Pendentes, Concluídas) e organizadas por área (como “Faculdade”, “Casa”). O menu lateral também permite filtrar tarefas por categoria.
+Atendida pela tela principal (dashboard), onde as tarefas estão divididas em colunas (Pendentes, Concluídas) e organizadas por área (como "Faculdade", "Casa"). O menu lateral também permite filtrar tarefas por categoria.
 
 - **US03:** Quero marcar tarefas como concluídas para acompanhar meu progresso.
 
@@ -269,7 +279,7 @@ Este mini guia de estilos apresenta os principais padrões visuais utilizados na
   - Texto principal: branco `#FFFFFF`
   - Texto secundário: `#CFCFCF`
 - **Tamanhos principais:**
-  - Títulos (ex: “Cadastro”, “Login”): `32px`, negrito
+  - Títulos (ex: "Cadastro", "Login"): `32px`, negrito
   - Textos em campos e cards: `16px`
   - Descrições e detalhes: `14px`
 

@@ -1,0 +1,292 @@
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: #1E1E1E;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #2E2E2E;
+    padding: 20px;
+    border-right: 1px solid #3A3A3A;
+}
+
+.sidebar-header {
+    padding: 20px 0;
+    border-bottom: 1px solid #3A3A3A;
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-item i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-item:hover {
+    background: #3A3A3A;
+}
+
+.nav-item.active {
+    background: #7E55FF;
+    color: #fff;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* Kanban Board */
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 60px);
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.kanban-column {
+    background: #2E2E2E;
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.column-header {
+    padding: 12px;
+    border-bottom: 1px solid #3A3A3A;
+    margin-bottom: 16px;
+}
+
+.column-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+}
+
+.task-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.task-card {
+    background: #232228;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px #00000033;
+    padding: 18px 16px 14px 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: box-shadow 0.2s, border 0.2s;
+    position: relative;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 16px #7E55FF55;
+    border: 2px solid #7E55FF;
+}
+
+.task-card .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.task-card .card-meta {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 4px;
+}
+
+.task-card .card-tag {
+    display: inline-block;
+    background: #A285FC;
+    color: #fff;
+    border-radius: 8px;
+    padding: 2px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 6px;
+    margin-bottom: 6px;
+}
+
+.task-card .card-desc {
+    font-size: 15px;
+    color: #eee;
+    margin-top: 8px;
+    white-space: pre-line;
+}
+
+/* Add Task Button */
+.add-task-btn {
+    background: #7E55FF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 16px;
+}
+
+.add-task-btn:hover {
+    background: #A285FC;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2E2E2E;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3A3A3A;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4A4A4A;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,20,20,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Content */
+.modal-card {
+    background: #232228;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px #00000066;
+    padding: 36px 32px 28px 32px;
+    min-width: 350px;
+    max-width: 95vw;
+    width: 400px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+}
+
+.modal-card h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-card label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.modal-card input, .modal-card textarea {
+    background: #2E2E2E;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+    resize: none;
+}
+
+.modal-card .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.modal-card .btn-modal {
+    background: #7E55FF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.modal-card .btn-modal.cancel {
+    background: #444;
+}
+
+.modal-card .btn-modal.delete {
+    background: #e74c3c;
+}
+
+.modal-card .btn-modal:hover {
+    background: #A285FC;
+}
+
+.modal-card .btn-modal.cancel:hover {
+    background: #666;
+}
+
+.modal-card .btn-modal.delete:hover {
+    background: #c0392b;
+}
+
+/* Tags de importância */
+.card-tag-importancia.urgente { background: #e74c3c; }
+.card-tag-importancia.importante { background: #a259f7; }
+.card-tag-importancia.opcional { background: #7f8c8d; }
+
+/* Tags de peso mental */
+.card-tag-peso.pesado { background: #f39c12; }
+.card-tag-peso.mediano { background: #2980b9; }
+.card-tag-peso.leve { background: #27ae60; } 

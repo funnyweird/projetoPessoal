@@ -1,0 +1,117 @@
+<!-- filepath: c:\Users\Inteli\Documents\Github\projetoPessoal\views\pages\login.ejs -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #1E1E1E;
+      color: #fff;
+      font-family: 'Inter', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      background: #2E2E2E;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px #00000033;
+      padding: 40px 32px 32px 32px;
+      min-width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .icone-perfil {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px #00000022;
+      object-fit: cover;
+      background: #A285FC;
+      display: block;
+    }
+    .login-container h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .login-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .input-field {
+      background: #3A3A3A;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    .input-field:focus {
+      box-shadow: 0 0 0 2px #7E55FF;
+    }
+    .btn {
+      background: #7E55FF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 0;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #A285FC;
+    }
+    .mensagem {
+      margin-top: 16px;
+      color: #A285FC;
+      text-align: center;
+      font-size: 15px;
+    }
+    .link {
+      color: #A285FC;
+      text-decoration: none;
+      font-size: 15px;
+      margin-top: 12px;
+      display: block;
+      text-align: center;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form class="login-form" action="/users/login" method="POST">
+      <input class="input-field" type="email" name="email" placeholder="Insira seu email" required>
+      <input class="input-field" type="password" name="senha" placeholder="Insira sua senha" required>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+    <% if (message) { %>
+      <div class="mensagem"><%= message %></div>
+    <% } %>
+    <% if (error) { %>
+      <div class="mensagem" style="color:#e74c3c"><%= error %></div>
+    <% } %>
+    <a href="/nova-senha" class="link">Esqueceu a senha?</a>
+    <a href="/cadastro" class="link">Criar nova conta</a>
+  </div>
+</body>
+</html>

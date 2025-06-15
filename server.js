@@ -12,7 +12,10 @@ db.connect()
     console.log('Conectado ao banco de dados PostgreSQL');
 
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
+    // Servir arquivos estáticos
+    app.use(express.static(path.join(__dirname, 'public')));
 
     const userRoutes = require('./routes/userRoutes');
     app.use('/users', userRoutes);
@@ -20,8 +23,11 @@ db.connect()
     const taskRoutes = require('./routes/taskRoutes');
     app.use('/tasks', taskRoutes);
 
-    //const frontendRoutes = require('./routes/frontRoutes');
-    //app.use('/', frontendRoutes);
+    const frontendRoutes = require('./routes/frontRoutes');
+    app.use('/', frontendRoutes);
+
+    const apiTaskRoutes = require('./routes/apiTaskRoutes');
+    app.use('/api/tasks', apiTaskRoutes);
 
     // Middleware para lidar com erros de rota não encontrada
     app.use((req, res, next) => {

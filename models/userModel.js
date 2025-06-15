@@ -31,6 +31,11 @@ class User {
     const result = await db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
     return result.rowCount > 0;
   }
+
+  static async findByEmailAndSenha(email, senha) {
+    const result = await db.query('SELECT * FROM users WHERE email = $1 AND senha = $2', [email, senha]);
+    return result.rows[0];
+  }
 }
 
 module.exports = User;
